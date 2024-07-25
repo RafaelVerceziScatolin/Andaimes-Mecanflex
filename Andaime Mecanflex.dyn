@@ -1,0 +1,241 @@
+{
+  "Uuid": "2ec8a096-10d7-4094-a940-10e78abd2a18",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "Rafael",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "import clr\r\nclr.AddReference(\"System.Windows.Forms\")\r\nclr.AddReference(\"System.Drawing\")\r\nimport System\r\nfrom System.Windows.Forms import *\r\nfrom System.Drawing import *\r\n\r\n####### FROM NOW ON THE CODE #######\r\n\r\nrun = IN[0]\r\n\r\nclass CreateWindow(Form):\r\n    def __init__(self):\r\n        \r\n        #Configurações gerais\r\n        self.Text = \"Andaimes\"\r\n        self.BackColor = Color.FromArgb(255, 255, 255)\r\n        self.WindowState = FormWindowState.Normal\r\n        self.CenterToScreen()\r\n        self.BringToFront()\r\n        self.Topmost = True\r\n        self.largura = []\r\n        self.comprimento = []\r\n        \r\n        #Tamanho da janela\r\n        screenSize = Screen.GetWorkingArea(self)\r\n        self.Width = screenSize.Width / 4\r\n        self.Height = screenSize.Height / 3\r\n        uiWidth = self.DisplayRectangle.Width\r\n        uiHeight = self.DisplayRectangle.Height\r\n        self.FormBorderStyle = FormBorderStyle.FixedDialog\r\n        self.MaximizeBox = False\r\n        \r\n        #Label texto\r\n        font = Font(\"Helvetica\", 10)\r\n        spacing = 10\r\n  \r\n        message = \"Largura\"\r\n        userMessage = Label()\r\n        userMessage.Font = font\r\n        userMessage.AutoSize = True\r\n        userMessage.Text = message\r\n        userMessage.Location = Point(spacing, spacing)\r\n        self.Controls.Add(userMessage)\r\n        \r\n        message = \"Comprimento\"\r\n        userMessage = Label()\r\n        userMessage.Font = font\r\n        userMessage.AutoSize = True\r\n        userMessage.Text = message\r\n        userMessage.Location = Point(spacing, Button().Height * 3 + Label().Height + spacing * 4)\r\n        self.Controls.Add(userMessage)\r\n        \r\n        message = \"(0)\"\r\n        self.somaL = Label()\r\n        self.somaL.Font = font\r\n        self.somaL.Size = Size(uiWidth / 2 - spacing, uiHeight / 7)\r\n        self.somaL.Text = message\r\n        self.somaL.Location = Point(Button().Width * 3 + spacing * 2, Label().Height + spacing)\r\n        self.Controls.Add(self.somaL)\r\n        \r\n        message = \"(0)\"\r\n        self.somaC = Label()\r\n        self.somaC.Font = font\r\n        self.somaC.Size = Size(uiWidth / 2 - spacing, uiHeight / 7)\r\n        self.somaC.Text = message\r\n        self.somaC.Location = Point(Button().Width * 3 + spacing * 2, Button().Height * 3 + Label().Height * 2 + spacing * 4)\r\n        self.Controls.Add(self.somaC)\r\n        \r\n        message = \"Total: 0 x 0\"\r\n        self.total = Label()\r\n        self.total.Font = font\r\n        self.total.AutoSize = True\r\n        self.total.Text = message\r\n        self.total.Location = Point(spacing, Button().Height * 6 + Label().Height * 2 + spacing * 7)\r\n        self.Controls.Add(self.total)\r\n        \r\n        #Botão travessa 70\r\n        btn70 = Button()\r\n        btn70.Text = \"70\"\r\n        btn70.Location = Point(spacing, Label().Height + spacing)\r\n        btn70.Click += self.ButtonClicked70L\r\n        self.Controls.Add(btn70)\r\n        \r\n        btn70 = Button()\r\n        btn70.Text = \"70\"\r\n        btn70.Location = Point(spacing, Button().Height * 3 + Label().Height * 2 + spacing * 4)\r\n        btn70.Click += self.ButtonClicked70C\r\n        self.Controls.Add(btn70)\r\n        \r\n        #Botão travessa 100\r\n        btn100 = Button()\r\n        btn100.Text = \"100\"\r\n        btn100.Location = Point(spacing, Button().Height + Label().Height + spacing)\r\n        btn100.Click += self.ButtonClicked100L\r\n        self.Controls.Add(btn100)\r\n        \r\n        btn100 = Button()\r\n        btn100.Text = \"100\"\r\n        btn100.Location = Point(spacing, Button().Height * 4 + Label().Height * 2 + spacing * 4)\r\n        btn100.Click += self.ButtonClicked100C\r\n        self.Controls.Add(btn100)\r\n        \r\n        #Botão travessa 150\r\n        btn150 = Button()\r\n        btn150.Text = \"150\"\r\n        btn150.Location = Point(Button().Width + spacing, Label().Height + spacing)\r\n        btn150.Click += self.ButtonClicked150L\r\n        self.Controls.Add(btn150)\r\n        \r\n        btn150 = Button()\r\n        btn150.Text = \"150\"\r\n        btn150.Location = Point(Button().Width + spacing, Button().Height * 3 + Label().Height * 2 + spacing * 4)\r\n        btn150.Click += self.ButtonClicked150C\r\n        self.Controls.Add(btn150)\r\n        \r\n        #Botão travessa 200\r\n        btn200 = Button()\r\n        btn200.Text = \"200\"\r\n        btn200.Location = Point(Button().Width + spacing, Button().Height + Label().Height + spacing)\r\n        btn200.Click += self.ButtonClicked200L\r\n        self.Controls.Add(btn200)\r\n        \r\n        btn200 = Button()\r\n        btn200.Text = \"200\"\r\n        btn200.Location = Point(Button().Width + spacing, Button().Height * 4 + Label().Height * 2 + spacing * 4)\r\n        btn200.Click += self.ButtonClicked200C\r\n        self.Controls.Add(btn200)\r\n        \r\n        #Botão travessa 250\r\n        btn250 = Button()\r\n        btn250.Text = \"250\"\r\n        btn250.Location = Point(Button().Width * 2 + spacing, Label().Height + spacing)\r\n        btn250.Click += self.ButtonClicked250L\r\n        self.Controls.Add(btn250)\r\n        \r\n        btn250 = Button()\r\n        btn250.Text = \"250\"\r\n        btn250.Location = Point(Button().Width * 2 + spacing, Button().Height * 3 + Label().Height * 2 + spacing * 4)\r\n        btn250.Click += self.ButtonClicked250C\r\n        self.Controls.Add(btn250)\r\n        \r\n        #Botão travessa 300\r\n        btn300 = Button()\r\n        btn300.Text = \"300\"\r\n        btn300.Location = Point(Button().Width * 2 + spacing, Button().Height + Label().Height + spacing)\r\n        btn300.Click += self.ButtonClicked300L\r\n        self.Controls.Add(btn300)\r\n        \r\n        btn300 = Button()\r\n        btn300.Text = \"300\"\r\n        btn300.Location = Point(Button().Width * 2 + spacing, Button().Height * 4 + Label().Height * 2 + spacing * 4)\r\n        btn300.Click += self.ButtonClicked300C\r\n        self.Controls.Add(btn300)\r\n        \r\n        #Botão remover\r\n        btnRemover = Button()\r\n        btnRemover.Text = \"Remover\"\r\n        btnRemover.Location = Point(spacing, Button().Height * 2 + Label().Height + spacing * 1.5)\r\n        btnRemover.Click += self.ButtonClickedRemoverL\r\n        self.Controls.Add(btnRemover)\r\n        \r\n        btnRemover = Button()\r\n        btnRemover.Text = \"Remover\"\r\n        btnRemover.Location = Point(spacing, Button().Height * 5 + Label().Height * 2 + spacing * 4.5)\r\n        btnRemover.Click += self.ButtonClickedRemoverC\r\n        self.Controls.Add(btnRemover)\r\n\r\n        #Botão zerar\r\n        btnZerar = Button()\r\n        btnZerar.Text = \"Zerar\"\r\n        btnZerar.Location = Point(Button().Width * 2 + spacing, Button().Height * 6 + Label().Height * 2 + spacing * 7)\r\n        btnZerar.Click += self.ButtonClickedZerar\r\n        self.Controls.Add(btnZerar)\r\n\r\n        #Botão ok\r\n        btnOk = Button()\r\n        btnOk.Text = \"Ok\"\r\n        btnOk.Location = Point(uiWidth - (btnOk.Width + spacing), uiHeight - (btnOk.Height + spacing))\r\n        btnOk.Anchor = (AnchorStyles.Bottom | AnchorStyles.Right)\r\n        btnOk.Click += self.ButtonClickedOk\r\n        self.Controls.Add(btnOk)\r\n    \r\n    def AtualizaSoma(self):\r\n        self.somaL.Text = \"({})\".format((\"+\".join([str(e) for e in self.largura])))\r\n        self.somaC.Text = \"({})\".format((\"+\".join([str(e) for e in self.comprimento])))\r\n        self.total.Text = \"Total: {} x {}\".format(sum(self.largura), sum(self.comprimento))\r\n\r\n    def ButtonClicked70L(self, sender, args):\r\n        if sender.Click:\r\n            self.largura.append(70)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClicked70C(self, sender, args):\r\n        if sender.Click:\r\n            self.comprimento.append(70)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClicked100L(self, sender, args):\r\n        if sender.Click:\r\n            self.largura.append(100)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClicked100C(self, sender, args):\r\n        if sender.Click:\r\n            self.comprimento.append(100)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClicked150L(self, sender, args):\r\n        if sender.Click:\r\n            self.largura.append(150)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClicked150C(self, sender, args):\r\n        if sender.Click:\r\n            self.comprimento.append(150)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClicked200L(self, sender, args):\r\n        if sender.Click:\r\n            self.largura.append(200)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClicked200C(self, sender, args):\r\n        if sender.Click:\r\n            self.comprimento.append(200)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClicked250L(self, sender, args):\r\n        if sender.Click:\r\n            self.largura.append(250)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClicked250C(self, sender, args):\r\n        if sender.Click:\r\n            self.comprimento.append(250)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClicked300L(self, sender, args):\r\n        if sender.Click:\r\n            self.largura.append(300)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClicked300C(self, sender, args):\r\n        if sender.Click:\r\n            self.comprimento.append(300)\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClickedRemoverL(self, sender, args):\r\n        if sender.Click:\r\n            try: self.largura.pop()\r\n            except IndexError: None\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClickedRemoverC(self, sender, args):\r\n        if sender.Click:\r\n            try: self.comprimento.pop()\r\n            except IndexError: None\r\n            self.AtualizaSoma()\r\n    \r\n    def ButtonClickedZerar(self, sender, args):\r\n        if sender.Click:\r\n            self.largura = []\r\n            self.comprimento = []\r\n            self.AtualizaSoma()\r\n            \r\n    def ButtonClickedOk(self, sender, args):\r\n        if sender.Click:\r\n            self.Close()\r\n\r\nif run:\r\n    form = CreateWindow()\r\n    Application.Run(form)\r\n    OUT = form.largura, form.comprimento",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "84b0863bb96d40dc9c6dbd9989641fd0",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "b4c6d1b1969c4dd7974ed51ac23ae153",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "404658ea4c4040d986e5900103739216",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "Id": "1648ca1a9fb24f8b8ab47a0faad63dd4",
+      "NodeType": "BooleanInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "0ed9d02bb8b34bc0bc711016d3257e07",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Enables selection between True and False",
+      "InputValue": false
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "import clr\r\n\r\nsys.path.append(r'C:\\Program Files (86x)\\IronPython 2.7\\Lib')\r\nimport System\r\nfrom System.Collections.Generic import List\r\n\r\nclr.AddReference('RevitAPI')\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import IFailuresPreprocessor, FailureSeverity, FailureProcessingResult\r\nfrom Autodesk.Revit.DB import ElementId, FamilyInstance, Transaction, Structure, AssemblyInstance, ElementTransformUtils\r\nfrom Autodesk.Revit.DB import Document, SpecTypeId, UnitUtils\r\nfrom Autodesk.Revit.DB import XYZ\r\n\r\nclr.AddReference('RevitNodes')\r\nimport Revit\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import Point\r\n\r\nclr.AddReference('RevitServices')\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\ndocUnitType = Document.GetUnits(doc).GetFormatOptions(SpecTypeId.Length).GetUnitTypeId()\r\n\r\n####### FROM NOW ON THE CODE #######\r\n\r\nclass WarningFailureMessageClass(IFailuresPreprocessor):\r\n    def PreprocessFailures(self, failuresAccessor):\r\n        failureMessagesList = failuresAccessor.GetFailureMessages().GetEnumerator()\r\n        for failure in failureMessagesList:\r\n            if failure.GetSeverity() == FailureSeverity.Warning:\r\n                failuresAccessor.DeleteWarning(failure)\r\n        return FailureProcessingResult.Continue\r\n\r\ndef WarningFailureMessage(transaction):\r\n    options = transaction.GetFailureHandlingOptions()\r\n    options.SetFailuresPreprocessor(WarningFailureMessageClass())\r\n    transaction.SetFailureHandlingOptions(options)\r\n\r\nclass Node:\r\n    def __init__(self, value):\r\n        self.left = None\r\n        self.right = None\r\n        self.value = value\r\n\r\nclass Grid:\r\n    def __init__(self, width, length, height):\r\n        self.elements = List[FamilyInstance]( )\r\n        self.root = Node(Point.ByCoordinates(0, 0, height))\r\n        self.Add(self.root, width, length)\r\n\r\n    def Add(self, node, width, length):\r\n        if length:\r\n            if node.value.Y == self.root.value.Y:\r\n                node.left = Node(Point.ByCoordinates(node.value.X + length[0], node.value.Y, node.value.Z))\r\n                self.Add(node.left, width, length[1:])\r\n                node.right = Node(Point.ByCoordinates(node.value.X, node.value.Y + width[0], node.value.Z))  \r\n                self.Add(node.right, width[1:], length)\r\n            elif width:\r\n                node.left = Node(Point.ByCoordinates(node.value.X + length[0], node.value.Y, node.value.Z))\r\n                node.right = Node(Point.ByCoordinates(node.value.X, node.value.Y + width[0], node.value.Z))\r\n                self.Add(node.right, width[1:], length)\r\n            else:\r\n                node.left = Node(Point.ByCoordinates(node.value.X + length[0], node.value.Y, node.value.Z))         \r\n        elif width: \r\n            node.right = Node(Point.ByCoordinates(node.value.X, node.value.Y + width[0], node.value.Z))\r\n            self.Add(node.right, width[1:], length)\r\n\r\n    def AddSapata(self, node):\r\n        transaction = Transaction(doc, 'Colocar sapata')\r\n        transaction.Start()\r\n        instance = doc.Create.NewFamilyInstance(node.ToXyz(), sapata, Structure.StructuralType.NonStructural)\r\n        transaction.Commit()\r\n        self.elements.Add(instance)\r\n\r\n    def AddSapatas(self, node):\r\n        if node.left:\r\n            if node.value.Y == self.root.value.Y:\r\n                self.AddSapatas(node.left)\r\n                self.AddSapatas(node.right)\r\n                self.AddSapata(node.value)\r\n            elif node.right:\r\n                self.AddSapatas(node.right)\r\n                self.AddSapata(node.value)\r\n            else:\r\n                self.AddSapata(node.value)\r\n        elif node.right:\r\n            self.AddSapatas(node.right)\r\n            self.AddSapata(node.value)\r\n        else:\r\n            self.AddSapata(node.value)\r\n\r\n    def AddPoste(self, node, poste):\r\n        transaction = Transaction(doc, 'Colocar poste')\r\n        transaction.Start()\r\n        instance = doc.Create.NewFamilyInstance(node.ToXyz(), poste, Structure.StructuralType.NonStructural)\r\n        transaction.Commit()\r\n        self.elements.Add(instance)\r\n\r\n    def AddPostes(self, node):\r\n        if node.left:\r\n            if node.value.Y == self.root.value.Y:\r\n                self.AddPostes(node.left)\r\n                self.AddPostes(node.right)\r\n                self.AddPoste(node.value, poste)\r\n            elif node.right:\r\n                self.AddPostes(node.right)\r\n                self.AddPoste(node.value, poste) if height - gridHeight >= 200 or node.value.X == self.root.value.X else None\r\n                self.AddPoste(node.value, postes.get(27)) if height - gridHeight == 25 and node.value.X != self.root.value.X else None            \r\n            else:\r\n                self.AddPoste(node.value, poste)\r\n        elif node.right:\r\n            self.AddPostes(node.right)\r\n            self.AddPoste(node.value, poste)\r\n        else:\r\n            self.AddPoste(node.value, poste)\r\n\r\n    def AddTravessa(self, node1, node2):\r\n        transaction = Transaction(doc, 'Colocar travessa')\r\n        travessa = travessas.get(node1.DistanceTo(node2))\r\n        direction = node2.ToXyz().Subtract(node1.ToXyz()).Normalize()\r\n        transaction.Start()\r\n        instance = doc.Create.NewFamilyInstance(node1.ToXyz(), travessa, direction, None, Structure.StructuralType.NonStructural)\r\n        transaction.Commit()\r\n        self.elements.Add(instance)\r\n\r\n    def AddTravessas(self, node):\r\n        if node.left:\r\n            if node.value.Y == self.root.value.Y:\r\n                self.AddTravessas(node.left)\r\n                self.AddTravessas(node.right)\r\n                self.AddTravessa(node.value, node.right.value) if gridHeight < height or node.value.X == self.root.value.X else None\r\n                self.AddTravessa(node.value, node.left.value)\r\n            elif node.right:\r\n                self.AddTravessas(node.right)\r\n                self.AddTravessa(node.value, node.right.value) if gridHeight < height or node.value.X == self.root.value.X else None\r\n                self.AddTravessa(node.value, node.left.value) if gridHeight < height else None\r\n            else:\r\n                self.AddTravessa(node.value, node.left.value)\r\n        elif node.right:\r\n            self.AddTravessas(node.right)\r\n            self.AddTravessa(node.value, node.right.value)\r\n\r\n    def AddDiagonal(self, node1, node2):\r\n        transaction = Transaction(doc, 'Colocar diagonal')\r\n        diagonal = diagonais.get(node1.DistanceTo(node2))\r\n        direction = node2.ToXyz().Subtract(node1.ToXyz()).Normalize()\r\n        transaction.Start()\r\n        instance = doc.Create.NewFamilyInstance(node1.ToXyz(), diagonal, direction, None, Structure.StructuralType.NonStructural)\r\n        transaction.Commit()\r\n        self.elements.Add(instance)\r\n        return False\r\n\r\n    def AddDiagonais(self, node):\r\n        global status\r\n        if node.left:\r\n            if node.value.Y == self.root.value.Y:\r\n                self.AddDiagonais(node.left)\r\n                status = self.AddDiagonal(node.value, node.left.value) if status else True\r\n                self.AddDiagonais(node.right)\r\n                status = self.AddDiagonal(node.value, node.right.value) if status else True\r\n            elif node.right:\r\n                status = self.AddDiagonal(node.value, node.left.value) if status else True\r\n                self.AddDiagonais(node.right)\r\n                status = self.AddDiagonal(node.value, node.right.value) if status else True\r\n            else:\r\n                status = self.AddDiagonal(node.value, node.left.value) if status else True\r\n        elif node.right:\r\n            self.AddDiagonais(node.right)\r\n            status = self.AddDiagonal(node.value, node.right.value) if status else True\r\n\r\n    def AddPlataforma(self, node1, node2, length):\r\n        distance = node1.DistanceTo(node2)\r\n        vector = node2.ToXyz().Subtract(node1.ToXyz()).Normalize()\r\n        direction = XYZ(1, 0, 0) if vector.IsAlmostEqualTo(XYZ(0, 1, 0)) else XYZ(0, 1, 0)\r\n        node1 = node1.ToXyz()\r\n        while distance >= 30:\r\n            transaction = Transaction(doc, 'Colocar plataforma')\r\n            width = 20 if distance == 30 or distance == 50 else 30  \r\n            plataforma = str(width) + 'x' + str(length)\r\n            transaction.Start()\r\n            instance = doc.Create.NewFamilyInstance(node1, plataformas.get(plataforma), direction, None, Structure.StructuralType.NonStructural)\r\n            transaction.Commit()\r\n            self.elements.Add(instance)\r\n            displacement = vector.Multiply(UnitUtils.ConvertToInternalUnits(width, docUnitType))\r\n            node1 = node1.Add(displacement)\r\n            distance -= width\r\n        grid.CreateAssembly()\r\n\r\n    def AddPlataformas(self, node):\r\n        if node.left:\r\n            if node.value.Y == self.root.value.Y:\r\n                self.AddPlataformas(node.left)\r\n                self.AddPlataformas(node.right)\r\n                if node.value.DistanceTo(node.right.value) <= node.value.DistanceTo(node.left.value):\r\n                    length = int(node.value.DistanceTo(node.left.value))\r\n                    self.AddPlataforma(node.value, node.right.value, length)\r\n                else:\r\n                    length = int(node.value.DistanceTo(node.right.value))\r\n                    self.AddPlataforma(node.left.value, node.value, length)\r\n            elif node.right:\r\n                self.AddPlataformas(node.right)\r\n                if node.value.DistanceTo(node.right.value) <= node.value.DistanceTo(node.left.value):\r\n                    length = int(node.value.DistanceTo(node.left.value))\r\n                    self.AddPlataforma(node.value, node.right.value, length)\r\n                else:\r\n                    length = int(node.value.DistanceTo(node.right.value))\r\n                    self.AddPlataforma(node.left.value, node.value, length)\r\n\r\n    def AddRodape(self, node1, node2):\r\n        transaction = Transaction(doc, 'Colocar rodape')\r\n        rodape = rodapes.get(node1.DistanceTo(node2))\r\n        direction = node2.ToXyz().Subtract(node1.ToXyz()).Normalize()\r\n        transaction.Start()\r\n        instance = doc.Create.NewFamilyInstance(node1.ToXyz(), rodape, direction, None, Structure.StructuralType.NonStructural)\r\n        transaction.Commit()\r\n        self.elements.Add(instance)\r\n\r\n    def AddRodapes(self, node):\r\n        if node.left:\r\n            if node.value.Y == self.root.value.Y:\r\n                self.AddRodapes(node.left)\r\n                self.AddRodapes(node.right)\r\n                self.AddRodape(node.value, node.right.value) if node.value.X == self.root.value.X else None\r\n                self.AddRodape(node.value, node.left.value)\r\n            elif node.right:\r\n                self.AddRodapes(node.right)\r\n                self.AddRodape(node.value, node.right.value) if node.value.X == self.root.value.X else None\r\n            else:\r\n                self.AddRodape(node.value, node.left.value)\r\n        elif node.right:\r\n            self.AddRodapes(node.right)\r\n            self.AddRodape(node.value, node.right.value)\r\n\r\n    def CreateAssembly(self):\r\n        transaction = Transaction(doc, 'Criar montagem')\r\n        category = self.elements[0].Category\r\n        identifiers = List[ElementId](e.Id for e in self.elements)\r\n        transaction.Start()\r\n        instance = AssemblyInstance.Create(doc, identifiers, category.Id)\r\n        transaction.Commit()\r\n        self.elements = List[FamilyInstance]( )\r\n        return instance\r\n\r\nwidth = IN[0][0]\r\nlength = IN[0][1]\r\nheight = 850\r\n\r\ngrid = poste = instance = transaction = status = None\r\ngridHeight = copyHeight = 0\r\n\r\nsapata = doc.GetElement(ElementId(5485437))\r\n\r\npostes = {27: doc.GetElement(ElementId(5398275)),\r\n          150: doc.GetElement(ElementId(5390514)),\r\n          200: doc.GetElement(ElementId(5393190)),\r\n          300: doc.GetElement(ElementId(5396352))}\r\n\r\ntravessas = {70: doc.GetElement(ElementId(5599967)),\r\n             100: doc.GetElement(ElementId(5946370)),\r\n             150: doc.GetElement(ElementId(6095714)),\r\n             200: doc.GetElement(ElementId(6315189)),\r\n             250: doc.GetElement(ElementId(6505546)),\r\n             300: doc.GetElement(ElementId(6526771))}\r\n\r\ndiagonais = {70: doc.GetElement(ElementId(5210994)),\r\n             100: doc.GetElement(ElementId(5223995)),\r\n             150: doc.GetElement(ElementId(5249997)),\r\n             200: doc.GetElement(ElementId(5262992)),\r\n             250: doc.GetElement(ElementId(5275996)),\r\n             300: doc.GetElement(ElementId(5289000))}\r\n\r\nplataformas = {'20x70': doc.GetElement(ElementId(5296673)),\r\n               '20x100': doc.GetElement(ElementId(5302702)),\r\n               '20x150': doc.GetElement(ElementId(5308764)),\r\n               '20x200': doc.GetElement(ElementId(5314861)),\r\n               '20x250': doc.GetElement(ElementId(5320995)),\r\n               '20x300': doc.GetElement(ElementId(5327166)),\r\n               '30x70': doc.GetElement(ElementId(5332143)),\r\n               '30x100': doc.GetElement(ElementId(5337146)),\r\n               '30x150': doc.GetElement(ElementId(5342184)),\r\n               '30x200': doc.GetElement(ElementId(5347261)),\r\n               '30x250': doc.GetElement(ElementId(5352374)),\r\n               '30x300': doc.GetElement(ElementId(5357528))}\r\n\r\nrodapes = {70: doc.GetElement(ElementId(5415497)),\r\n           100: doc.GetElement(ElementId(5416572)),\r\n           150: doc.GetElement(ElementId(5417647)),\r\n           200: doc.GetElement(ElementId(5420871)),\r\n           250: doc.GetElement(ElementId(5421946)),\r\n           300: doc.GetElement(ElementId(5423027))}\r\n\r\n#Colocar sapatas\r\ngrid = Grid(width, length, 0)\r\ngrid.AddSapatas(grid.root)\r\ngrid.CreateAssembly()\r\n\r\n#Colocar postes\r\ngrid = Grid(width, length, 25)\r\nposte = postes.get(200) if height%200 <= 50 else postes.get(300)\r\ngrid.AddPostes(grid.root)\r\ngrid.CreateAssembly()\r\n\r\ngridHeight = 225 if poste == postes.get(200) else 325\r\ni = int((height + 25 - gridHeight) / 200)\r\nif i:\r\n    grid = Grid(width, length, gridHeight)\r\n    poste = postes.get(200)\r\n    grid.AddPostes(grid.root)\r\n    instance = grid.CreateAssembly()\r\n    copyHeight = 200\r\n    i -= 1\r\n    while i > 0:\r\n        transaction = Transaction(doc, 'Copiar montagem de postes para cima')\r\n        WarningFailureMessage(transaction)\r\n        transaction.Start()\r\n        ElementTransformUtils.CopyElement(doc, instance.Id, Point.ByCoordinates(0, 0, copyHeight).ToXyz())\r\n        transaction.Commit()\r\n        copyHeight += 200\r\n        i -= 1\r\n\r\ngridHeight += copyHeight\r\ngrid = Grid(width, length, gridHeight)\r\nposte = postes.get(150) if gridHeight > height else postes.get(200)\r\ngrid.AddPostes(grid.root)\r\ngrid.CreateAssembly()\r\n\r\n#Colocar travessas\r\ngridHeight = max(height%200, 50)\r\ngrid = Grid(width, length, gridHeight)\r\ngrid.AddTravessas(grid.root)\r\ninstance = grid.CreateAssembly()\r\n\r\ncopyHeight = 150 if height%200 == 0 else 200\r\ni = round((height - gridHeight) / 200.0)\r\nwhile i > 0:\r\n    transaction = Transaction(doc, 'Copiar montagem de travessas para cima')\r\n    WarningFailureMessage(transaction)\r\n    transaction.Start()\r\n    ElementTransformUtils.CopyElement(doc, instance.Id, Point.ByCoordinates(0, 0, copyHeight).ToXyz())\r\n    transaction.Commit()\r\n    copyHeight += 200\r\n    i -= 1\r\n\r\ngridHeight = height + 50\r\ngrid = Grid(width, length, gridHeight)\r\ngrid.AddTravessas(grid.root)\r\ninstance = grid.CreateAssembly()\r\n\r\ntransaction = Transaction(doc, 'Guarda corpo')\r\nWarningFailureMessage(transaction)\r\ntransaction.Start()\r\nElementTransformUtils.CopyElement(doc, instance.Id, Point.ByCoordinates(0, 0, 50).ToXyz())\r\nElementTransformUtils.CopyElement(doc, instance.Id, Point.ByCoordinates(0, 0, 100).ToXyz())\r\ntransaction.Commit()\r\n\r\n#Colocar diagonais\r\nif height >= 250:\r\n    status = True\r\n    gridHeight = max(height%200, 50)\r\n    grid = Grid(width, length, gridHeight)\r\n    grid.AddDiagonais(grid.root)\r\n    instance = grid.CreateAssembly()\r\n    \r\n    gridHeight += 150 if height%200 == 0 else 200\r\n    copyHeight = 350 if height%200 == 0 else 400\r\n    i = int((height - gridHeight) / 400)\r\n    while i > 0:\r\n        transaction = Transaction(doc, 'Copiar montagem de diagonais para cima')\r\n        WarningFailureMessage(transaction)\r\n        transaction.Start()\r\n        ElementTransformUtils.CopyElement(doc, instance.Id, Point.ByCoordinates(0, 0, copyHeight).ToXyz())\r\n        transaction.Commit()\r\n        copyHeight += 400\r\n        i -= 1\r\n        \r\n    if height - gridHeight >= 200:\r\n        status = False\r\n        grid = Grid(width, length, gridHeight)\r\n        grid.AddDiagonais(grid.root)\r\n        instance = grid.CreateAssembly()\r\n        \r\n        gridHeight += 200\r\n        copyHeight = 400\r\n        i = int((height - gridHeight) / 400)\r\n        while i > 0:\r\n            transaction = Transaction(doc, 'Copiar montagem de diagonais para cima')\r\n            WarningFailureMessage(transaction)\r\n            transaction.Start()\r\n            ElementTransformUtils.CopyElement(doc, instance.Id, Point.ByCoordinates(0, 0, copyHeight).ToXyz())\r\n            transaction.Commit()\r\n            copyHeight += 400\r\n            i -= 1\r\n\r\n#Colocar plataformas e rodapés\r\ngrid = Grid(width, length, height)\r\ngrid.AddPlataformas(grid.root)\r\ngrid.AddRodapes(grid.root)\r\ngrid.CreateAssembly()",
+      "Engine": "IronPython2",
+      "EngineName": "IronPython2",
+      "VariableInputPorts": true,
+      "Id": "3f3cef46ce7e4dad87436290e7b516f4",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "e3ea2dc5ec924ed38c0df03d1bac5da2",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "63c8078a7e844830a20a2c6e2ac13601",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "import clr\r\n\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom Autodesk.Revit.DB import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\n####### FROM NOW ON THE CODE #######\r\n\r\nOUT = FilteredElementCollector(doc).OfClass(FamilySymbol).ToElements()",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "90defaafc6794e33937d4fa5341c8231",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "43a8fa70052d490aa305d51d03a6d16b",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "02043d81545e495f91330b57a5ebcfe3",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "404658ea4c4040d986e5900103739216",
+      "End": "e3ea2dc5ec924ed38c0df03d1bac5da2",
+      "Id": "19616bd1035a441a8c0c039e7faf7ec3",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "0ed9d02bb8b34bc0bc711016d3257e07",
+      "End": "b4c6d1b1969c4dd7974ed51ac23ae153",
+      "Id": "a21388be55394f968f09f8daca898fdd",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [
+    {
+      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
+      "Name": "Propriedades",
+      "Version": "2.17",
+      "Data": {}
+    },
+    {
+      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+      "Name": "Generative Design",
+      "Version": "4.0",
+      "Data": {}
+    }
+  ],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.18.1.5096",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Background Preview",
+      "EyeX": -13.494117736816406,
+      "EyeY": 29.62237548828125,
+      "EyeZ": 38.9107780456543,
+      "LookX": 20.129207611083984,
+      "LookY": -16.591587066650391,
+      "LookZ": -54.740959167480469,
+      "UpX": 0.021069386973977089,
+      "UpY": 0.9981347918510437,
+      "UpZ": -0.057297583669424057
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Id": "84b0863bb96d40dc9c6dbd9989641fd0",
+        "Name": "Janela Andaimes",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 865.80521083581289,
+        "Y": 2628.5653901799765
+      },
+      {
+        "Id": "1648ca1a9fb24f8b8ab47a0faad63dd4",
+        "Name": "Boolean",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 594.52603227442,
+        "Y": 2619.5744463468463
+      },
+      {
+        "Id": "3f3cef46ce7e4dad87436290e7b516f4",
+        "Name": "Código principal",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1129.4611903569225,
+        "Y": 2623.7977362350694
+      },
+      {
+        "Id": "90defaafc6794e33937d4fa5341c8231",
+        "Name": "Lista de Familias",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 597.59078007341691,
+        "Y": 2844.6393104730687
+      }
+    ],
+    "Annotations": [],
+    "X": -264.02840322870389,
+    "Y": -1905.4484248929477,
+    "Zoom": 0.7390201701849195
+  }
+}
