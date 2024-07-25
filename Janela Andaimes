@@ -1,0 +1,274 @@
+import clr
+clr.AddReference("System.Windows.Forms")
+clr.AddReference("System.Drawing")
+import System
+from System.Windows.Forms import *
+from System.Drawing import *
+
+####### FROM NOW ON THE CODE #######
+
+run = IN[0]
+
+class CreateWindow(Form):
+    def __init__(self):
+        
+        #Configurações gerais
+        self.Text = "Andaimes"
+        self.BackColor = Color.FromArgb(255, 255, 255)
+        self.WindowState = FormWindowState.Normal
+        self.CenterToScreen()
+        self.BringToFront()
+        self.Topmost = True
+        self.largura = []
+        self.comprimento = []
+        
+        #Tamanho da janela
+        screenSize = Screen.GetWorkingArea(self)
+        self.Width = screenSize.Width / 4
+        self.Height = screenSize.Height / 3
+        uiWidth = self.DisplayRectangle.Width
+        uiHeight = self.DisplayRectangle.Height
+        self.FormBorderStyle = FormBorderStyle.FixedDialog
+        self.MaximizeBox = False
+        
+        #Label texto
+        font = Font("Helvetica", 10)
+        spacing = 10
+  
+        message = "Largura"
+        userMessage = Label()
+        userMessage.Font = font
+        userMessage.AutoSize = True
+        userMessage.Text = message
+        userMessage.Location = Point(spacing, spacing)
+        self.Controls.Add(userMessage)
+        
+        message = "Comprimento"
+        userMessage = Label()
+        userMessage.Font = font
+        userMessage.AutoSize = True
+        userMessage.Text = message
+        userMessage.Location = Point(spacing, Button().Height * 3 + Label().Height + spacing * 4)
+        self.Controls.Add(userMessage)
+        
+        message = "(0)"
+        self.somaL = Label()
+        self.somaL.Font = font
+        self.somaL.Size = Size(uiWidth / 2 - spacing, uiHeight / 7)
+        self.somaL.Text = message
+        self.somaL.Location = Point(Button().Width * 3 + spacing * 2, Label().Height + spacing)
+        self.Controls.Add(self.somaL)
+        
+        message = "(0)"
+        self.somaC = Label()
+        self.somaC.Font = font
+        self.somaC.Size = Size(uiWidth / 2 - spacing, uiHeight / 7)
+        self.somaC.Text = message
+        self.somaC.Location = Point(Button().Width * 3 + spacing * 2, Button().Height * 3 + Label().Height * 2 + spacing * 4)
+        self.Controls.Add(self.somaC)
+        
+        message = "Total: 0 x 0"
+        self.total = Label()
+        self.total.Font = font
+        self.total.AutoSize = True
+        self.total.Text = message
+        self.total.Location = Point(spacing, Button().Height * 6 + Label().Height * 2 + spacing * 7)
+        self.Controls.Add(self.total)
+        
+        #Botão travessa 70
+        btn70 = Button()
+        btn70.Text = "70"
+        btn70.Location = Point(spacing, Label().Height + spacing)
+        btn70.Click += self.ButtonClicked70L
+        self.Controls.Add(btn70)
+        
+        btn70 = Button()
+        btn70.Text = "70"
+        btn70.Location = Point(spacing, Button().Height * 3 + Label().Height * 2 + spacing * 4)
+        btn70.Click += self.ButtonClicked70C
+        self.Controls.Add(btn70)
+        
+        #Botão travessa 100
+        btn100 = Button()
+        btn100.Text = "100"
+        btn100.Location = Point(spacing, Button().Height + Label().Height + spacing)
+        btn100.Click += self.ButtonClicked100L
+        self.Controls.Add(btn100)
+        
+        btn100 = Button()
+        btn100.Text = "100"
+        btn100.Location = Point(spacing, Button().Height * 4 + Label().Height * 2 + spacing * 4)
+        btn100.Click += self.ButtonClicked100C
+        self.Controls.Add(btn100)
+        
+        #Botão travessa 150
+        btn150 = Button()
+        btn150.Text = "150"
+        btn150.Location = Point(Button().Width + spacing, Label().Height + spacing)
+        btn150.Click += self.ButtonClicked150L
+        self.Controls.Add(btn150)
+        
+        btn150 = Button()
+        btn150.Text = "150"
+        btn150.Location = Point(Button().Width + spacing, Button().Height * 3 + Label().Height * 2 + spacing * 4)
+        btn150.Click += self.ButtonClicked150C
+        self.Controls.Add(btn150)
+        
+        #Botão travessa 200
+        btn200 = Button()
+        btn200.Text = "200"
+        btn200.Location = Point(Button().Width + spacing, Button().Height + Label().Height + spacing)
+        btn200.Click += self.ButtonClicked200L
+        self.Controls.Add(btn200)
+        
+        btn200 = Button()
+        btn200.Text = "200"
+        btn200.Location = Point(Button().Width + spacing, Button().Height * 4 + Label().Height * 2 + spacing * 4)
+        btn200.Click += self.ButtonClicked200C
+        self.Controls.Add(btn200)
+        
+        #Botão travessa 250
+        btn250 = Button()
+        btn250.Text = "250"
+        btn250.Location = Point(Button().Width * 2 + spacing, Label().Height + spacing)
+        btn250.Click += self.ButtonClicked250L
+        self.Controls.Add(btn250)
+        
+        btn250 = Button()
+        btn250.Text = "250"
+        btn250.Location = Point(Button().Width * 2 + spacing, Button().Height * 3 + Label().Height * 2 + spacing * 4)
+        btn250.Click += self.ButtonClicked250C
+        self.Controls.Add(btn250)
+        
+        #Botão travessa 300
+        btn300 = Button()
+        btn300.Text = "300"
+        btn300.Location = Point(Button().Width * 2 + spacing, Button().Height + Label().Height + spacing)
+        btn300.Click += self.ButtonClicked300L
+        self.Controls.Add(btn300)
+        
+        btn300 = Button()
+        btn300.Text = "300"
+        btn300.Location = Point(Button().Width * 2 + spacing, Button().Height * 4 + Label().Height * 2 + spacing * 4)
+        btn300.Click += self.ButtonClicked300C
+        self.Controls.Add(btn300)
+        
+        #Botão remover
+        btnRemover = Button()
+        btnRemover.Text = "Remover"
+        btnRemover.Location = Point(spacing, Button().Height * 2 + Label().Height + spacing * 1.5)
+        btnRemover.Click += self.ButtonClickedRemoverL
+        self.Controls.Add(btnRemover)
+        
+        btnRemover = Button()
+        btnRemover.Text = "Remover"
+        btnRemover.Location = Point(spacing, Button().Height * 5 + Label().Height * 2 + spacing * 4.5)
+        btnRemover.Click += self.ButtonClickedRemoverC
+        self.Controls.Add(btnRemover)
+
+        #Botão zerar
+        btnZerar = Button()
+        btnZerar.Text = "Zerar"
+        btnZerar.Location = Point(Button().Width * 2 + spacing, Button().Height * 6 + Label().Height * 2 + spacing * 7)
+        btnZerar.Click += self.ButtonClickedZerar
+        self.Controls.Add(btnZerar)
+
+        #Botão ok
+        btnOk = Button()
+        btnOk.Text = "Ok"
+        btnOk.Location = Point(uiWidth - (btnOk.Width + spacing), uiHeight - (btnOk.Height + spacing))
+        btnOk.Anchor = (AnchorStyles.Bottom | AnchorStyles.Right)
+        btnOk.Click += self.ButtonClickedOk
+        self.Controls.Add(btnOk)
+    
+    def AtualizaSoma(self):
+        self.somaL.Text = "({})".format(("+".join([str(e) for e in self.largura])))
+        self.somaC.Text = "({})".format(("+".join([str(e) for e in self.comprimento])))
+        self.total.Text = "Total: {} x {}".format(sum(self.largura), sum(self.comprimento))
+
+    def ButtonClicked70L(self, sender, args):
+        if sender.Click:
+            self.largura.append(70)
+            self.AtualizaSoma()
+    
+    def ButtonClicked70C(self, sender, args):
+        if sender.Click:
+            self.comprimento.append(70)
+            self.AtualizaSoma()
+    
+    def ButtonClicked100L(self, sender, args):
+        if sender.Click:
+            self.largura.append(100)
+            self.AtualizaSoma()
+    
+    def ButtonClicked100C(self, sender, args):
+        if sender.Click:
+            self.comprimento.append(100)
+            self.AtualizaSoma()
+    
+    def ButtonClicked150L(self, sender, args):
+        if sender.Click:
+            self.largura.append(150)
+            self.AtualizaSoma()
+    
+    def ButtonClicked150C(self, sender, args):
+        if sender.Click:
+            self.comprimento.append(150)
+            self.AtualizaSoma()
+    
+    def ButtonClicked200L(self, sender, args):
+        if sender.Click:
+            self.largura.append(200)
+            self.AtualizaSoma()
+    
+    def ButtonClicked200C(self, sender, args):
+        if sender.Click:
+            self.comprimento.append(200)
+            self.AtualizaSoma()
+    
+    def ButtonClicked250L(self, sender, args):
+        if sender.Click:
+            self.largura.append(250)
+            self.AtualizaSoma()
+    
+    def ButtonClicked250C(self, sender, args):
+        if sender.Click:
+            self.comprimento.append(250)
+            self.AtualizaSoma()
+    
+    def ButtonClicked300L(self, sender, args):
+        if sender.Click:
+            self.largura.append(300)
+            self.AtualizaSoma()
+    
+    def ButtonClicked300C(self, sender, args):
+        if sender.Click:
+            self.comprimento.append(300)
+            self.AtualizaSoma()
+    
+    def ButtonClickedRemoverL(self, sender, args):
+        if sender.Click:
+            try: self.largura.pop()
+            except IndexError: None
+            self.AtualizaSoma()
+    
+    def ButtonClickedRemoverC(self, sender, args):
+        if sender.Click:
+            try: self.comprimento.pop()
+            except IndexError: None
+            self.AtualizaSoma()
+    
+    def ButtonClickedZerar(self, sender, args):
+        if sender.Click:
+            self.largura = []
+            self.comprimento = []
+            self.AtualizaSoma()
+            
+    def ButtonClickedOk(self, sender, args):
+        if sender.Click:
+            self.Close()
+
+if run:
+    form = CreateWindow()
+    Application.Run(form)
+    OUT = form.largura, form.comprimento
